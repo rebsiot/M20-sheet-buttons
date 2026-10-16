@@ -6,6 +6,8 @@ on:
     paths:
       - module.json
       - src/**
+      - icons/**
+      - ICONS-CREDITS.md
       - tests/**
       - tools/package_release.py
       - .github/workflows/publish-release.yml

@@ -1,10 +1,10 @@
-# WoD20 Dodge Button — v0.1.0
+# WoD20 Dodge Button — v0.1.1
 
 **For:** Foundry VTT v14 with the `worldofdarkness` (WoD20) system v7.3.1+.
 **Module ID:** `wod20-dodge-button`  
 **Source:** https://github.com/rebsiot/M20-sheet-buttons
 
-Adds one **Dodge** icon immediately **below the native dice icon** in the vertical toolbar of WoD20 PC character sheets. It uses the same 30 x 30 pixel square as the native icons, extracts the existing native icon's color, and includes a Dodge tooltip and keyboard support. It appears on applicable sheet tabs, without rearranging Roll, Soak, initiative or casting icons.
+Adds one **Dodge** icon immediately **below the native dice icon** in the vertical toolbar of WoD20 PC character sheets. It uses the same 30 x 30 pixel square as the native icons, extracts the existing native icon's color (including WoD20 RGB colors), and includes a Dodge tooltip and keyboard support. It appears on applicable sheet tabs, without rearranging Roll, Soak, initiative or casting icons.
 
 Clicking Dodge opens **WoD20's native General Roll dialog** with:
 
@@ -15,6 +15,10 @@ Clicking Dodge opens **WoD20's native General Roll dialog** with:
 - **Other native controls:** wound penalties, Willpower, situational bonus, specialty, and native chat/dice resolution stay in the system's hands.
 
 The button is a roll shortcut, **not a permission to dodge every firearm attack**. Whether a character can reactively evade an attack, find cover, or split actions is determined by the Storyteller and the relevant WoD20 combat rules. The shortcut does not auto-roll against attacks or apply damage/soak, and it does not handle Paradox.
+
+## Dodge icon and attribution
+
+v0.1.1 uses the existing **Game Icons Dodge SVG by Felbrigg** (copied from the project's `M20-player-actions/icons/dodge.svg`), with only the opaque black background removed. The icon ships locally in `icons/dodge.svg` and displays on the neighboring WoD20 button's background color. See `ICONS-CREDITS.md` and `icons/LICENSE.txt` for CC BY 3.0 attribution. No external request is needed to render the icon.
 
 ## Installation
 

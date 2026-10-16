@@ -3,7 +3,7 @@
   "type": "module",
   "title": "WoD20 Dodge Button",
   "description": "Adds Dodge beneath the native Roll and Soak sheet buttons and opens the native WoD20 roll dialog with Dexterity + Dodge or Athletics.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     {
       "name": "St. Louis v2 tools"
@@ -32,5 +32,5 @@
   "changelog": "https://github.com/rebsiot/M20-sheet-buttons/blob/main/CHANGELOG.md",
   "bugs": "https://github.com/rebsiot/M20-sheet-buttons/issues",
   "manifest": "https://github.com/rebsiot/M20-sheet-buttons/releases/latest/download/module.json",
-  "download": "https://github.com/rebsiot/M20-sheet-buttons/releases/download/v0.1.0/wod20-dodge-button-0.1.0.zip"
+  "download": "https://github.com/rebsiot/M20-sheet-buttons/releases/download/v0.1.1/wod20-dodge-button-0.1.1.zip"
 }

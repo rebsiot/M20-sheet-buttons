@@ -1,12 +1,13 @@
-# Test report — v0.1.0 — 2026-10-15
+# Test report — v0.1.1 — 2026-10-15
 
 ## Automated/mock-tested
 
 - JavaScript syntax: `node --check src/main.js` — PASS.
-- Node `node --test tests/*.test.js` — **8/8 PASS**:
+- Node `node --test tests/*.test.js` — **9/9 PASS**:
   - Foundry v14 `renderActorSheetV2` hook registered.
   - Dodge trait preferred over Athletics; athletics fallback.
-  - Button inserted under the existing dice icon and not duplicated on rerender.
+  - Button inserted under the existing dice icon, with locally bundled SVG and matching background, not duplicated on rerender.
+  - Native WoD20 RGB icon fill recognized for exact Mage color.
   - PC/system filtering prevents modifications to unrelated sheets.
   - Native roll dialog gets Dexterity + Athletics; action remains Dodge.
   - Custom Dodge chosen when the Actor has that Ability.

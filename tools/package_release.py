@@ -14,7 +14,8 @@ assert manifest['download'] == f'https://github.com/rebsiot/M20-sheet-buttons/re
 
 include = [
     'module.json', 'README.md', 'CHANGELOG.md', 'TEST-REPORT.md',
-    'HANDOFF-UPDATE-0.1.0.md', 'src/main.js',
+    'HANDOFF-UPDATE-0.1.0.md', 'HANDOFF-UPDATE-0.1.1.md',
+    'ICONS-CREDITS.md', 'icons/LICENSE.txt', 'icons/dodge.svg', 'src/main.js',
 ]
 include.extend(str(p.relative_to(ROOT)) for p in sorted((ROOT / 'tests').glob('*.test.js')))
 for rel in include:
@@ -32,6 +33,6 @@ with ZipFile(out) as archive:
     assert prefix + 'module.json' in archive.namelist(), 'Manifest is missing or misplaced'
     inside = json.loads(archive.read(prefix + 'module.json'))
     assert inside == manifest, 'Manifest in ZIP differs from source'
-    for rel in manifest.get('esmodules', []) + manifest.get('styles', []):
+    for rel in manifest.get('esmodules', []) + manifest.get('styles', []) + ['icons/dodge.svg', 'ICONS-CREDITS.md']:
         assert prefix + rel in archive.namelist(), f'Missing packaged dependency: {rel}'
 print(out)

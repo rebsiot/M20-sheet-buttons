@@ -12,6 +12,7 @@ class MockElement {
   constructor(tag) {
     this.tag = tag;
     this.className = "";
+    this.style = {};
     this.attributes = {};
     this.listeners = {};
     this.innerHTML = "";
@@ -62,9 +63,20 @@ test("adds one button immediately after the native Roll icon and on rerender non
   const app = { actor: actor() };
   assert.equal(addDodgeButtons(app, root), 1);
   assert.equal(dice.after.length, 1);
-  assert.match(dice.after[0].innerHTML, /fill="#9b49a5"/);
+  assert.equal(dice.after[0].style.backgroundColor, "#9b49a5");
+  assert.match(dice.after[0].innerHTML, /modules\/wod20-dodge-button\/icons\/dodge\.svg/);
+  assert.match(dice.after[0].innerHTML, /width="30" height="30"/);
   assert.equal(dice.after[0].title, "Dodge — Dexterity + Dodge/Athletics");
   assert.equal(addDodgeButtons(app, root), 0);
+});
+test("matches native WoD20 rgb(...) SVG button colors", () => {
+  const { dice, root } = mockRoot();
+  const nativeQuerySelector = dice.querySelector.bind(dice);
+  dice.querySelector = selector => selector === "svg path[fill]"
+    ? { getAttribute: () => "rgb(83, 33, 89)" }
+    : nativeQuerySelector(selector);
+  assert.equal(addDodgeButtons({ actor: actor() }, root), 1);
+  assert.equal(dice.after[0].style.backgroundColor, "rgb(83, 33, 89)");
 });
 test("sheet type/system guards do not touch other sheets", () => {
   const { dice, root } = mockRoot();

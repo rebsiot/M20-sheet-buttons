@@ -1,5 +1,5 @@
 /**
- * WoD20 Dodge Button 0.1.0 — Foundry v14 + worldofdarkness 7.3.1.
+ * WoD20 Dodge Button 0.1.1 — Foundry v14 + worldofdarkness 7.3.1.
  * This is a sheet-only extension: the native WoD20 dialog and DiceRoller own every roll.
  */
 const MODULE_ID = "wod20-dodge-button";
@@ -28,19 +28,19 @@ export function preferredDodgeAbility(actor) {
 }
 
 function nativeSplatColor(diceButton) {
-  const fill = diceButton.querySelector?.("svg path[fill]")?.getAttribute?.("fill") ?? "";
-  return /^#[\da-f]{3}(?:[\da-f]{3})?$/i.test(fill) ? fill : "#7d3f84";
+  // Native WoD20 SVG backgrounds are usually rgb(...) rather than #hex.
+  // Read the actual adjacent button, not a hardcoded Mage color.
+  const fill = String(diceButton.querySelector?.("svg path[fill]")?.getAttribute?.("fill") ?? "").trim();
+  if (/^#[\da-f]{3}(?:[\da-f]{3})?$/i.test(fill)) return fill;
+  const rgb = /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/i.exec(fill);
+  if (rgb && rgb.slice(1).every(channel => Number(channel) <= 255)) return fill;
+  return "#7d3f84";
 }
 
-function dodgeIcon(color) {
-  // Thirty-pixel icon: matches the native macro buttons' square silhouette.
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" aria-hidden="true" focusable="false" style="border-radius:3px;height:30px;width:30px">
-    <rect width="30" height="30" fill="${color}"/>
-    <g fill="none" stroke="#fff" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="19.7" cy="6.5" r="2" fill="#fff" stroke="none"/>
-      <path d="m17.5 10-4 4-5 1.2m4.8-1.6 5 3.3 5-1.4m-5-5 2.8 5.6-4.8 5.1m0 0-6.3 3.5m6.3-3.5 5.6 2.2"/>
-    </g>
-  </svg>`;
+function dodgeIcon() {
+  // Bundled Game Icons 'dodge' SVG by Felbrigg (CC BY 3.0).
+  // The asset has a transparent background; the native adjacent icon supplies its color.
+  return `<img src="modules/${MODULE_ID}/icons/dodge.svg" width="30" height="30" alt="" aria-hidden="true" draggable="false" style="display:block;width:30px;height:30px;border-radius:3px">`;
 }
 
 export async function openDodgeDialog(actor, loadDialog = () => import(NATIVE_DIALOG_PATH)) {
@@ -95,7 +95,9 @@ export function addDodgeButtons(app, root) {
     btn.setAttribute("tabindex", "0");
     btn.setAttribute("aria-label", "Dodge");
     btn.title = "Dodge — Dexterity + Dodge/Athletics";
-    btn.innerHTML = dodgeIcon(color);
+    btn.style.backgroundColor = color;
+    btn.style.borderRadius = "3px";
+    btn.innerHTML = dodgeIcon();
 
     const activate = event => {
       event.preventDefault();
