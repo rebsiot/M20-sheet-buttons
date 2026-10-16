@@ -1,0 +1,47 @@
+name: Publish M20 Sheet Buttons
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - module.json
+      - src/**
+      - tests/**
+      - tools/package_release.py
+      - .github/workflows/publish-release.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Verify module syntax and tests
+        run: |
+          node --check src/main.js
+          node --test tests/*.test.js
+      - name: Package installable release
+        id: pack
+        run: |
+          python3 tools/package_release.py
+          version=$(node -p 'require("./module.json").version')
+          echo "tag=v${version}" >> "$GITHUB_OUTPUT"
+          echo "zip=dist/wod20-dodge-button-${version}.zip" >> "$GITHUB_OUTPUT"
+      - name: Publish tagged GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="${{ steps.pack.outputs.tag }}"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists; bump the module version to publish a new ZIP."
+            exit 0
+          fi
+          gh release create "$tag" "${{ steps.pack.outputs.zip }}" module.json \
+            --target "$GITHUB_SHA" \
+            --title "WoD20 Dodge Button $tag" \
+            --notes-file CHANGELOG.md
